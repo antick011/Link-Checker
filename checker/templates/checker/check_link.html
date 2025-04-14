@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Checker Chatbot</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(0, 0, 0, 0.75); /* Dark background with transparency */
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 70%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Chat Bubble */
+        .chat-bubble {
+            max-width: 80%;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 16px;
+            word-wrap: break-word;
+            display: inline-block;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: bubbleIn 0.5s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .user-bubble {
+            background-color: #185eb9;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+            box-shadow: 0 4px 10px rgba(60, 120, 199, 0.6);
+        }
+
+        .bot-bubble {
+            background-color: #ff007f;
+            color: #fff;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+            box-shadow: 0 4px 10px rgba(255, 0, 127, 0.6);
+        }
+
+        /* Triangular Arrow for Bubbles */
+        .bot-bubble::after, .user-bubble::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid;
+        }
+
+        .user-bubble::after {
+            top: 10px;
+            right: -10px;
+            border-top-color: #185eb9;
+        }
+
+        .bot-bubble::after {
+            top: 10px;
+            left: -10px;
+            border-top-color: #ff007f;
+        }
+
+        /* Animation for Bubbles */
+        @keyframes bubbleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Input Area */
+        .input-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            padding: 15px;
+            background-color: #111;
+            border-top: 1px solid #333;
+            position: relative;
+            margin-top: 20px;
+            align-items: center; /* Align image and button horizontally */
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 18px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 25px;
+            margin-right: 12px;
+            transition: 0.3s;
+            background: #222;
+            color: #fff;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff007f;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
+
+        button {
+            padding: 18px;
+            font-size: 16px;
+            background-color: #ff007f;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        button:hover {
+            background-color: #e60069;
+            transform: scale(1.05);
+        }
+
+        /* Styling for the Image beside the button */
+        .input-container img {
+            width: 120px;
+            height: auto;
+            margin-left: 15px;
+        }
+
+        /* Feedback Result Styles */
+        .feedback {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .trusted {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .suspicious {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Result Animations */
+        .chat-bubble {
+            transform: translateY(-10px);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <!-- Chat bot welcome message -->
+        <div class="chat-bubble bot-bubble">
+            <p><strong>Bot:</strong> Webel Konnagar Presents Fake URL Checker...</p>
+            <p>Check suspicious links here!</p>
+        </div>
+
+        <!-- Displaying User's Sent URL -->
+        {% if url %}
+            <div class="chat-bubble user-bubble">
+                <p><strong>You:</strong> {{ url }}</p>
+            </div>
+        {% endif %}
+
+        <!-- Displaying Bot's Feedback and Result -->
+        {% if feedback %}
+            <div class="feedback {% if result == 'Trusted' %}trusted{% else %}suspicious{% endif %}">
+                <p><strong>Bot:</strong> {{ feedback }}</p>
+            </div>
+        {% endif %}
+
+        {% if result %}
+           
+        {% endif %}
+    </div>
+
+    <div class="input-container">
+        <form method="post" action="{% url 'check_link' %}" style="width: 100%; display: flex; align-items: center;">
+            {% csrf_token %}
+            <input type="text" id="url" name="url" placeholder="https://example.com" value="{{ url|default:'' }}">
+            <button type="submit">Send</button>
+            <!-- Add image beside the button -->
+            <img style="background-color: white;" src="https://static.wixstatic.com/media/382a6a_7cfb6e5830614d65aa220fb622f632c9~mv2.png/v1/fill/w_286,h_132,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/316257400_510417441112255_7563024961554277726_n_edited.png" alt="Logo">
+        </form>
+    </div>
+
+</body>
+</html>
